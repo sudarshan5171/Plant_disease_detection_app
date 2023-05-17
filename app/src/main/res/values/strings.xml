@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Disease Detector</string>
+    <string name="buttonSelectPhoto">Select Photo</string>
+    <string name="buttonTakePhoto">Start Camera</string>
+    <string name="buttonDiagnose">Detect</string>
+    <string name="defaultImage">Default image set now…</string>
+    <string name="descriptionImage">View for displaying image</string>
+    <string name="image_set">Your photo image set now.</string>
+    <string name="disease_detected">Disease detected!</string>
+    <string name="find_more_info">Find more info</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="try_next">Try next sample</string>
+    <string name="find_more">Find More Info</string>
+</resources>
