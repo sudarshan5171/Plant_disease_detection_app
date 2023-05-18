@@ -1,29 +1,17 @@
 package com.example.diseasedetector
 
 import android.app.Activity
-import android.app.AlertDialog
-import android.app.Dialog
-
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.view.Window
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.example.diseasedetector.databinding.ActivityMainBinding
-import com.example.diseasedetector.databinding.DialogCustomBinding
-import com.example.diseasedetector.fragments.WebviewFragment
 import java.io.IOException
 import java.util.*
 
@@ -136,13 +124,6 @@ class MainActivity : AppCompatActivity() {
         return Bitmap.createBitmap(bitmap, 0, 0, originalWidth, originalHeight, matrix, true)
     }
 
-    private fun openWebViewFragment() {
-        val webViewFragment = WebviewFragment()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container_view, webViewFragment)
-            .addToBackStack(null)
-            .commit()
-    }
 
     private fun getFirstWord(input: String): String {
         return input.trim().substringBefore(" ")
@@ -154,7 +135,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun capitalizeFirstWords(input: String): String {
         val words = input.split("\\s+".toRegex())
-        val capitalizedWords = words.map { it ->
+        val capitalizedWords = words.map {
             it.replaceFirstChar { it2 ->
                 if (it2.isLowerCase()) it2.titlecase(
                     Locale.ROOT
@@ -166,5 +147,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun findMoreInfo() {
         Toast.makeText(this,"hi",Toast.LENGTH_LONG).show()
+
+        val url = "https://www.google.com" // Replace with your desired URL
+
+        val intent = Intent(this@MainActivity, WebViewActivity::class.java)
+        intent.putExtra(WebViewActivity.DATA_URL, url)
+        startActivity(intent)
     }
 }
