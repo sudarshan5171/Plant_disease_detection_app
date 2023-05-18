@@ -56,25 +56,23 @@ class MainActivity : AppCompatActivity() {
             val results = mClassifier.recognizeImage(mBitmap).firstOrNull()
             val title = results?.title
             val confidence = String.format("%.2f", results?.confidence?.times(100))
-            val plantName = getFirstWord(title ?: "")
-            val diseaseName = removeFirstWord(title ?: "")
-            val description = "Plant Name: ${capitalizeFirstWords(plantName)} " +
-                    "\nDisease Name: ${capitalizeFirstWords(diseaseName)}" +
-                    "\nConfidence: $confidence %"
-            val descHealthy = "Plant Name: ${capitalizeFirstWords(plantName)} " +
-                    "\nStatus: ${capitalizeFirstWords(diseaseName)}" +
-                    "\nConfidence: $confidence %"
+            val plantName = title?.getFirstWord()
+            val diseaseName = title?.removeFirstWord()
+            val description =
+                "Plant Name: ${plantName?.capitalizeFirstWords()} " + "\nDisease Name: ${diseaseName?.capitalizeFirstWords()}" + "\nConfidence: $confidence %"
+            val descHealthy =
+                "Plant Name: ${plantName?.capitalizeFirstWords()} " + "\nStatus: ${diseaseName?.capitalizeFirstWords()}" + "\nConfidence: $confidence %"
             val isHealthy = title?.contains("healthy")
 
             if (isHealthy == false) {
-                CustomDialog().apply {
+                CustomDialog(::findMoreInfo).apply {
                     setStatus(isHealthy = false)
                     setTitle("Disease Detected!")
                     setDesc(description)
                     show(supportFragmentManager, "MyCustomFragment")
                 }
             } else {
-                CustomDialog(::findMoreInfo).apply {
+                CustomDialog().apply {
                     setStatus(isHealthy = true)
                     setTitle("Healthy Plant!")
                     setDesc(descHealthy)
@@ -84,35 +82,37 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val cameraLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val data: Intent? = result.data
-            if(result.resultCode == Activity.RESULT_OK && data != null) {
-                mBitmap = data.extras?.get("data") as Bitmap
-                mBitmap = scaleImage(mBitmap)
-                binding.mPhotoImageView.setImageBitmap(mBitmap)
-            } else {
-                Toast.makeText(this, "Camera cancel..", Toast.LENGTH_LONG).show()
-            }
-        }
-    }
-
-    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val data: Intent? = result.data
-            if (data != null) {
-                val uri = data.data
-                try {
-                    mBitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
-                } catch (e: IOException) {
-                    e.printStackTrace()
+    private val cameraLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                if (result.resultCode == Activity.RESULT_OK && data != null) {
+                    mBitmap = data.extras?.get("data") as Bitmap
+                    mBitmap = scaleImage(mBitmap)
+                    binding.mPhotoImageView.setImageBitmap(mBitmap)
+                } else {
+                    Toast.makeText(this, "Camera cancel..", Toast.LENGTH_LONG).show()
                 }
-                println("Success!!!")
-                mBitmap = scaleImage(mBitmap)
-                binding.mPhotoImageView.setImageBitmap(mBitmap)
             }
         }
-    }
+
+    private val galleryLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                if (data != null) {
+                    val uri = data.data
+                    try {
+                        mBitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                    println("Success!!!")
+                    mBitmap = scaleImage(mBitmap)
+                    binding.mPhotoImageView.setImageBitmap(mBitmap)
+                }
+            }
+        }
 
     private fun scaleImage(bitmap: Bitmap?): Bitmap {
         val originalWidth = bitmap!!.width
@@ -124,29 +124,8 @@ class MainActivity : AppCompatActivity() {
         return Bitmap.createBitmap(bitmap, 0, 0, originalWidth, originalHeight, matrix, true)
     }
 
-
-    private fun getFirstWord(input: String): String {
-        return input.trim().substringBefore(" ")
-    }
-
-    private fun removeFirstWord(input: String): String {
-        return input.substringAfter(" ")
-    }
-
-    private fun capitalizeFirstWords(input: String): String {
-        val words = input.split("\\s+".toRegex())
-        val capitalizedWords = words.map {
-            it.replaceFirstChar { it2 ->
-                if (it2.isLowerCase()) it2.titlecase(
-                    Locale.ROOT
-                ) else it.toString()
-            }
-        }
-        return capitalizedWords.joinToString(" ")
-    }
-
     private fun findMoreInfo() {
-        Toast.makeText(this,"hi",Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "hi", Toast.LENGTH_LONG).show()
 
         val url = "https://www.google.com" // Replace with your desired URL
 

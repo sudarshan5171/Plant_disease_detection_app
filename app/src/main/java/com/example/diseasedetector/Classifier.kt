@@ -12,7 +12,7 @@ import java.util.*
 
 class Classifier(assetManager: AssetManager, modelPath: String, labelPath: String, input: Int) {
 
-    companion object{
+    companion object {
         private const val PIXEL_SIZE = 3
         private const val IMAGE_MEAN = 0
         private const val IMAGE_STD = 255.0f

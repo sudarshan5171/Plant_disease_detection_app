@@ -36,7 +36,7 @@ class CustomDialog(private val getMoreInfo: (() -> Unit)? = null) : DialogFragme
         binding.apply {
             title.text = this@CustomDialog.title
             infoText.text = info
-            if(isHealthy) {
+            if (isHealthy) {
                 moreInfoButton.text = getString(R.string.try_next)
             } else {
                 moreInfoButton.text = getString(R.string.find_more)
@@ -48,7 +48,6 @@ class CustomDialog(private val getMoreInfo: (() -> Unit)? = null) : DialogFragme
 
             moreInfoButton.setOnClickListener {
                 if (isHealthy) {
-                    getMoreInfo?.invoke()
                     dismiss()
                 } else {
                     getMoreInfo?.invoke()

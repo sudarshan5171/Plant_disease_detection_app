@@ -6,7 +6,6 @@ import org.tensorflow.lite.Interpreter
 import org.tensorflow.lite.support.common.FileUtil
 
 
-
 class PlantDiseaseViewModel : ViewModel() {
 
     companion object {
