@@ -53,4 +53,5 @@ dependencies {
     implementation 'org.tensorflow:tensorflow-lite:2.5.0'
     implementation 'org.tensorflow:tensorflow-lite-support:0.1.0'
     implementation 'androidx.databinding:databinding-runtime:7.0.3'
+    implementation 'androidx.activity:activity-ktx:1.4.0'
 }

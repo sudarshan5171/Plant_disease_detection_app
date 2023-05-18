@@ -36,8 +36,10 @@
 
     <ImageView
         android:id="@+id/mPhotoImageView"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:1"
+        android:layout_marginHorizontal="16dp"
         android:contentDescription="@string/descriptionImage"
         app:layout_constraintBottom_toTopOf="@+id/mDetectButton"
         app:layout_constraintEnd_toEndOf="parent"

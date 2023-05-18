@@ -10,6 +10,15 @@ import java.nio.MappedByteBuffer
 import java.nio.channels.FileChannel
 import java.util.*
 
+/**
+ * Classifier is responsible for performing image classification using a TensorFlow Lite model.
+ * It takes an input image, preprocesses it, runs the inference, and returns the classification results.
+ *
+ * @param assetManager The AssetManager used to load model and label files.
+ * @param modelPath The path to the TensorFlow Lite model file.
+ * @param labelPath The path to the label file containing class names.
+ * @param input The size of the input image expected by the model.
+ */
 class Classifier(assetManager: AssetManager, modelPath: String, labelPath: String, input: Int) {
 
     companion object {
@@ -24,6 +33,13 @@ class Classifier(assetManager: AssetManager, modelPath: String, labelPath: Strin
     private var interpreter: Interpreter
     private var labelList: List<String>
 
+    /**
+     * Data class representing the classification result.
+     *
+     * @param id The unique identifier of the class.
+     * @param title The label or name of the class.
+     * @param confidence The confidence score of the classification result.
+     */
     data class Recognition(
         var id: String = "",
         var title: String = "",
@@ -39,6 +55,13 @@ class Classifier(assetManager: AssetManager, modelPath: String, labelPath: Strin
         labelList = loadLabelList(assetManager, labelPath)
     }
 
+    /**
+     * Loads the TensorFlow Lite model file from the given asset path.
+     *
+     * @param assetManager The AssetManager used to open the model file.
+     * @param modelPath The path to the TensorFlow Lite model file.
+     * @return The MappedByteBuffer representing the loaded model file.
+     */
     private fun loadModelFile(assetManager: AssetManager, modelPath: String): MappedByteBuffer {
         val fileDescriptor = assetManager.openFd(modelPath)
         val inputStream = FileInputStream(fileDescriptor.fileDescriptor)
@@ -48,10 +71,23 @@ class Classifier(assetManager: AssetManager, modelPath: String, labelPath: Strin
         return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength)
     }
 
+    /**
+     * Loads the label list from the given asset path.
+     *
+     * @param assetManager The AssetManager used to open the label file.
+     * @param labelPath The path to the label file containing class names.
+     * @return The list of class names loaded from the label file.
+     */
     private fun loadLabelList(assetManager: AssetManager, labelPath: String): List<String> {
         return assetManager.open(labelPath).bufferedReader().useLines { it.toList() }
     }
 
+    /**
+     * Performs image classification on the given bitmap.
+     *
+     * @param bitmap The input bitmap image.
+     * @return The list of recognition results.
+     */
     fun recognizeImage(bitmap: Bitmap): List<Recognition> {
         val scaledBitmap = Bitmap.createScaledBitmap(bitmap, inputSize, inputSize, false)
         val byteBuffer = convertBitmapToByteBuffer(scaledBitmap)
@@ -60,6 +96,12 @@ class Classifier(assetManager: AssetManager, modelPath: String, labelPath: Strin
         return getSortedResult(result)
     }
 
+    /**
+     * Converts the input bitmap image into a ByteBuffer expected by the model.
+     *
+     * @param bitmap The input bitmap image.
+     * @return The ByteBuffer representing the converted image data.
+     */
     private fun convertBitmapToByteBuffer(bitmap: Bitmap): ByteBuffer {
         val byteBuffer = ByteBuffer.allocateDirect(4 * inputSize * inputSize * PIXEL_SIZE)
         byteBuffer.order(ByteOrder.nativeOrder())
@@ -79,6 +121,12 @@ class Classifier(assetManager: AssetManager, modelPath: String, labelPath: Strin
         return byteBuffer
     }
 
+    /**
+     * Retrieves the sorted recognition results based on the confidence scores.
+     *
+     * @param labelProbArray The array containing the confidence scores for each class.
+     * @return The list of recognition results.
+     */
     private fun getSortedResult(labelProbArray: Array<FloatArray>): List<Recognition> {
         val pq = PriorityQueue(
             MAX_RESULTS,
