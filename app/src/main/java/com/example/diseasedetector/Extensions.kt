@@ -11,13 +11,12 @@ fun String.removeFirstWord(): String {
 }
 
 fun String.capitalizeFirstWords(): String {
-    val words = this.split("\\s+".toRegex())
-    val capitalizedWords = words.map {
-        it.replaceFirstChar { it2 ->
-            if (it2.isLowerCase()) it2.titlecase(
-                Locale.ROOT
-            ) else it.toString()
+    val words = this.split(" ").toMutableList()
+    for (i in words.indices) {
+        val word = words[i]
+        if (word.isNotEmpty()) {
+            words[i] = word.substring(0, 1).toUpperCase() + word.substring(1)
         }
     }
-    return capitalizedWords.joinToString(" ")
+    return words.joinToString(" ")
 }

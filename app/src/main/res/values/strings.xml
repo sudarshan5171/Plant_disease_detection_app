@@ -12,4 +12,19 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="try_next">Try next sample</string>
     <string name="find_more">Find More Info</string>
+    
+    //disease names
+    <string name="pepper_bell_bacterial_spot">मिर्ची के पौधे का जीवाण्विक धब्बा</string>
+    <string name="potato_early_blight">आलू में झुलसा रोग</string>
+    <string name="potato_late_blight">आलू में पछेती झुलसा रोग</string>
+    <string name="tomato_bacterial_spot">टमाटर में जीवाण्विक धब्बे </string>
+    <string name="tomato_early_blight">टमाटर का झुलसा रोग </string>
+    <string name="tomato_late_blight">टमाटर का पछेती  झुलसा रोग </string>
+    <string name="tomato_leaf_mold">टमाटर की पत्तियों पर फफूंदी</string>
+    <string name="tomato_septoria_leaf_spot">सेप्टोरिया पत्तों पर धब्बा</string>
+    <string name="tomato_spider_mites">स्पाइडर माइट</string>
+    <string name="tomato_target_spot">पत्रकों पर धब्बे </string>
+    <string name="tomato_yellow_leaf_curl_virus">माटर की पत्ती मोड़ने वाला पीला विषाणु</string>
+    <string name="tomato_mosaic_virus">टमाटर का मोज़ाइक वायरस</string>
+
 </resources>

@@ -19,8 +19,8 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         // Constants for the model, label, and sample image paths
-        private const val INPUT_SIZE = 224
-        private const val MODEL_PATH = "plant_disease_model.tflite"
+        private const val INPUT_SIZE = 256
+        private const val MODEL_PATH = "trained_model.tflite"
         private const val LABEL_PATH = "plant_labels.txt"
         private const val SAMPLE_PATH = "automn.jpg"
     }
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
             val description =
                 "Plant Name: ${plantName?.capitalizeFirstWords()} " + "\nDisease Name: ${diseaseName?.capitalizeFirstWords()}" + "\nConfidence: $confidence %"
             val descHealthy =
-                "Plant Name: ${plantName?.capitalizeFirstWords()} " + "\nStatus: ${diseaseName?.capitalizeFirstWords()}" + "\nConfidence: $confidence %"
+                "Plant Name: ${plantName?.capitalizeFirstWords()} " + "\nStatus: Healthy" + "\nConfidence: $confidence %"
             val isHealthy = title?.contains("healthy")
 
             if (isHealthy == false) {
@@ -142,13 +142,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun findMoreInfo() {
-        Toast.makeText(this, "hi", Toast.LENGTH_LONG).show()
         plantsViewModel.fillData()
         val newUrl = plantsViewModel.moreInfo[disease]
-        val url = "https://www.google.com"
 
         val intent = Intent(this@MainActivity, WebViewActivity::class.java)
-        intent.putExtra(WebViewActivity.DATA_URL, url)
+        intent.putExtra(WebViewActivity.DATA_URL, newUrl)
         startActivity(intent)
     }
 }

@@ -16,6 +16,7 @@ class WebViewActivity : AppCompatActivity() {
         _binding = ActivityWebViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val webView = binding.webView
+        supportActionBar?.hide()
         webView.webChromeClient = WebChromeClient()
         webView.webViewClient = WebViewClient()
         val url = intent.extras?.getString(DATA_URL)
