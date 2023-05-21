@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     private val plantsViewModel: PlantsViewModel by viewModels()
     private var disease: String? = null
     private lateinit var binding: ActivityMainBinding
+
     // Classifier for image recognition
     private lateinit var mClassifier: Classifier
     private lateinit var mBitmap: Bitmap

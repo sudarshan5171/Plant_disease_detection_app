@@ -1,7 +1,5 @@
 package com.example.diseasedetector
 
-import java.util.*
-
 fun String.getFirstWord(): String {
     return this.trim().substringBefore(" ")
 }
